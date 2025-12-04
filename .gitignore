@@ -34,17 +34,6 @@ wheels/
 *.swo
 *~
 
-# Data
-*.npy
-*.npz
-*.pkl
-*.h5
-
-# Results
-results/*.png
-results/*.pdf
-results/*.npy
-
 # OS
 .DS_Store
 Thumbs.db
