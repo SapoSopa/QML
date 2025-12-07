@@ -8,17 +8,17 @@ import matplotlib.pyplot as plt
 import pennylane as qml
 
 # podem ser uteis
-# def convert_labels_to_quantum(y):
-#     """
-#     Convert binary labels {0, 1} to quantum labels {-1, +1}.
+def convert_labels_to_quantum(y):
+    """
+    Convert binary labels {0, 1} to quantum labels {-1, +1}.
     
-#     Args:
-#         y: Binary labels (0 or 1)
+    Args:
+        y: Binary labels (0 or 1)
     
-#     Returns:
-#         Quantum labels (-1 or +1)
-#     """
-#     return 2 * y - 1
+    Returns:
+        Quantum labels (-1 or +1)
+    """
+    return 2 * y - 1
 
 
 # def convert_labels_from_quantum(y_quantum):
