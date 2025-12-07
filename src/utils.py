@@ -75,7 +75,13 @@ def create_variational_circuit(n_qubits, n_layers):
                     wires=i
                 )
             
-            qml.CNOT(wires=[0, 1])
+            if n_qubits == 2:
+            # Generate CNOT between the two qubits
+                qml.CNOT(wires=[1, 0])
+            elif n_qubits > 2:
+            # Generate CNOTs in a ring topology
+                for i in range(n_qubits):
+                    qml.CNOT(wires=[(i + 1) % n_qubits, i])
         
         return qml.expval(qml.PauliZ(0))
     
