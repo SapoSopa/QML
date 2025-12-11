@@ -102,7 +102,7 @@ def create_variational_circuit(n_qubits, n_layers, diff_method='backprop'):
     return circuit
 
 
-def train_model(optimizer, cost_function, init_params, num_steps, print_interval=10, execs_per_step=None):
+def train_model(optimizer, cost_function, init_params, num_steps, print_interval=10, execs_per_step=None, early_stopping=False, epsilon=0.0001):
     """
     Train a quantum model using a given optimizer.
     
@@ -115,6 +115,9 @@ def train_model(optimizer, cost_function, init_params, num_steps, print_interval
         execs_per_step: Number of circuit executions per step (optional, for tracking)
                        - None: Estimate based on optimizer type
                        - int: Manual specification
+        early_stopping: Enable early stopping when convergence is reached (default: False)
+        epsilon: Convergence threshold for early stopping (default: 0.01)
+                 Training stops when |cost[k] - cost[k-1]| < epsilon
     
     Returns:
         tuple: (cost_history, exec_history, final_params)
@@ -141,7 +144,10 @@ def train_model(optimizer, cost_function, init_params, num_steps, print_interval
     optimizer_name = optimizer.__class__.__name__
     print(f"Training with {optimizer_name}")
     print(f"Initial cost: {initial_cost:.6f}")
-    print(f"Running {num_steps} optimization steps...\n")
+    print(f"Running {num_steps} optimization steps...")
+    if early_stopping:
+        print(f"Early stopping enabled (eps={epsilon:.6f})")
+    print()
     
     # Training loop
     for step in range(num_steps):
@@ -162,23 +168,30 @@ def train_model(optimizer, cost_function, init_params, num_steps, print_interval
         # Track circuit executions (if provided)
         if exec_history is not None:
             exec_history.append((step + 1) * execs_per_step)
+        
+        # Early stopping check
+        if early_stopping and step > 0:
+            cost_change = abs(cost_history[-1] - cost_history[-2])
+            if cost_change < epsilon:
+                print(f"Convergence reached (step {step+1}): |Δcost| = {cost_change:.6f} < {epsilon:.6f}")
+                break
     
     # Print final results
     final_cost = cost_history[-1]
     improvement = ((initial_cost - final_cost) / abs(initial_cost)) * 100
     
-  
-    print(f"Final cost: {final_cost:.6f}")
+    print(f"\nFinal cost: {final_cost:.6f}")
     print(f"Improvement: {improvement:+.2f}%")
     if exec_history is not None:
         print(f"Total executions: {exec_history[-1]}")
+    print(f"Completed {len(cost_history)-1} steps")
     
     return cost_history, exec_history, params
 
 
 
 
-def train_model_batch(optimizer, loss_function, init_params, X_train, y_train, n_epochs, batch_size, print_interval=10):
+def train_model_batch(optimizer, loss_function, init_params, X_train, y_train, n_epochs, batch_size, print_interval=10, early_stopping=False, epsilon=0.0001):
     """
     Train a quantum model using mini-batch gradient descent with epochs.
     
@@ -191,6 +204,9 @@ def train_model_batch(optimizer, loss_function, init_params, X_train, y_train, n
         n_epochs: Number of training epochs
         batch_size: Size of mini-batches for training
         print_interval: Print progress every N epochs (default: 10)
+        early_stopping: Enable early stopping when convergence is reached (default: False)
+        epsilon: Convergence threshold for early stopping (default: 0.01)
+                 Training stops when |loss[k] - loss[k-1]| < epsilon
     
     Returns:
         tuple: (loss_history, final_params)
@@ -216,7 +232,10 @@ def train_model_batch(optimizer, loss_function, init_params, X_train, y_train, n
     print(f"Training with {optimizer_name} (Mini-Batch)")
     print(f"Dataset: {len(X_train)} samples | Batch size: {batch_size}")
     print(f"Initial loss: {initial_loss:.6f}")
-    print(f"Running {n_epochs} epochs...\n")
+    print(f"Running {n_epochs} epochs...")
+    if early_stopping:
+        print(f"Early stopping enabled (epsilon={epsilon:.6f})")
+    print()
     
     # Training loop
     for epoch in range(n_epochs):
@@ -240,14 +259,22 @@ def train_model_batch(optimizer, loss_function, init_params, X_train, y_train, n
         # Print progress
         if (epoch + 1) % print_interval == 0:
             print(f"Epoch {epoch+1:4d}/{n_epochs} | Loss: {current_loss:.6f}")
+        
+        # Early stopping check
+        if early_stopping and epoch > 0:
+            loss_change = abs(loss_history[-1] - loss_history[-2])
+            if loss_change < epsilon:
+                print(f"Convergence reached (epoch {epoch+1}): |Δloss| = {loss_change:.6f} < {epsilon:.6f}")
+                break
     
     # Print final results
     final_loss = loss_history[-1]
     improvement = ((initial_loss - final_loss) / abs(initial_loss)) * 100
     
-    print(f"Training Complete!")
+    print(f"\nTraining Complete!")
     print(f"Final loss: {final_loss:.6f}")
     print(f"Improvement: {improvement:+.2f}%")
+    print(f"Completed {len(loss_history)-1} epochs")
     
     return loss_history, params
 
