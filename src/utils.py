@@ -129,7 +129,7 @@ def predict(q_circuit, params, x):
 
 # == Training Functions == #
 
-def train_model(optimizer, cost_function, init_params, num_steps, print_interval=10, execs_per_step=None, early_stopping=True, delta=0.0001):
+def train_model(optimizer, cost_function, init_params, num_steps, print_interval=10, execs_per_step=None, early_stopping=False, delta=0.0001):
     """
     Train a quantum model using a given optimizer.
     
