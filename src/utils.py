@@ -102,7 +102,34 @@ def create_variational_circuit(n_qubits, n_layers, diff_method='backprop'):
     return circuit
 
 
-def train_model(optimizer, cost_function, init_params, num_steps, print_interval=10, execs_per_step=None, early_stopping=False, epsilon=0.0001):
+
+# == Functions for Loss and Prediction == #
+def create_loss_function(circuit, X, y):
+    """Cria função de loss (MSE) para um circuito específico."""
+    def loss_fn(params, X=X, y=y):
+        predictions = qml.numpy.stack([circuit(params, x) for x in X])
+        return qml.numpy.mean((predictions - y) ** 2)
+    return loss_fn
+
+
+def predict(q_circuit, params, x):
+    """
+    Predict class label for input x.
+    
+    Args:
+        params: Circuit parameters
+        x: Input data point
+    
+    Returns:
+        Predicted label: -1 or +1
+    """
+    prediction = q_circuit(params, x)
+    return np.sign(prediction)
+
+
+# == Training Functions == #
+
+def train_model(optimizer, cost_function, init_params, num_steps, print_interval=10, execs_per_step=None, early_stopping=True, delta=0.0001):
     """
     Train a quantum model using a given optimizer.
     
@@ -113,11 +140,10 @@ def train_model(optimizer, cost_function, init_params, num_steps, print_interval
         num_steps: Number of optimization steps
         print_interval: Print progress every N steps (default: 10)
         execs_per_step: Number of circuit executions per step (optional, for tracking)
-                       - None: Estimate based on optimizer type
                        - int: Manual specification
         early_stopping: Enable early stopping when convergence is reached (default: False)
-        epsilon: Convergence threshold for early stopping (default: 0.01)
-                 Training stops when |cost[k] - cost[k-1]| < epsilon
+        delta: Convergence threshold for early stopping
+                 Training stops when |cost[k] - cost[k-1]| < delta
     
     Returns:
         tuple: (cost_history, exec_history, final_params)
@@ -146,7 +172,7 @@ def train_model(optimizer, cost_function, init_params, num_steps, print_interval
     print(f"Initial cost: {initial_cost:.6f}")
     print(f"Running {num_steps} optimization steps...")
     if early_stopping:
-        print(f"Early stopping enabled (eps={epsilon:.6f})")
+        print(f"Early stopping enabled (delta={delta:.6f})")
     print()
     
     # Training loop
@@ -172,8 +198,8 @@ def train_model(optimizer, cost_function, init_params, num_steps, print_interval
         # Early stopping check
         if early_stopping and step > 0:
             cost_change = abs(cost_history[-1] - cost_history[-2])
-            if cost_change < epsilon:
-                print(f"Convergence reached (step {step+1}): |Δcost| = {cost_change:.6f} < {epsilon:.6f}")
+            if cost_change < delta:
+                print(f"Convergence reached (step {step+1}): |Δcost| = {cost_change:.6f} < {delta:.6f}")
                 break
     
     # Print final results
