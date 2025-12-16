@@ -36,9 +36,8 @@ QML/
 
 ## 👥 Divisão de Trabalho (4 Membros)
 
-### 🟥 Membro 1 — Conceitos-Base e Motivação
+### [<img src="https://avatars.githubusercontent.com/u/91219977?v=4" width=35>](https://github.com/gabrielbelo2007) - Conceitos-Base e Motivação
 **Notebook**: `01_conceitos_base_motivacao.ipynb`  
-**Tempo de apresentação**: 3 minutos
 
 **Responsabilidades:**
 - Pesquisar e explicar conceitos fundamentais:
@@ -48,19 +47,16 @@ QML/
   - Quantum gradients (parameter-shift rule)
 - Criar visualização do dataset XOR
 - Preparar slides de motivação
-- Fazer ponte para o dataset make_moons
 
 **Entregáveis:**
-- [ ] Conceitos teóricos documentados
-- [ ] Visualização do XOR
-- [ ] Slides de introdução
-- [ ] Seção do notebook completa
+- ✅ Conceitos teóricos documentados
+- ✅ Visualização do XOR
+- ✅ Slides de introdução
 
 ---
 
-### 🟦 Membro 2 — Dataset e Construção do Circuito
+### [<img src="https://avatars.githubusercontent.com/u/129231720?v=4" width=35>](https://github.com/SapoSopa) — Dataset e Construção do Circuito
 **Notebook**: `02_dataset_circuito.ipynb`  
-**Tempo de apresentação**: 3-4 minutos
 
 **Responsabilidades:**
 - Gerar e visualizar o dataset make_moons
@@ -70,17 +66,16 @@ QML/
 - Produzir diagrama do circuito quântico
 
 **Entregáveis:**
-- [ ] Dataset make_moons gerado e salvo
-- [ ] Código de embedding funcionando
-- [ ] Ansatz implementado
-- [ ] Visualização do circuito
-- [ ] Dados salvos em `data/`
+- ✅ Dataset make_moons gerado e salvo
+- ✅ Código de embedding funcionando
+- ✅ Ansatz implementado
+- ✅ Visualização do circuito
+- ✅ Dados salvos em `data/`
 
 ---
 
-### 🟩 Membro 3 — Treinamento, Gradientes e Otimização
+### [<img src="https://avatars.githubusercontent.com/u/137849658?v=4" width=35>](https://github.com/marquesgbr) — Treinamento, Gradientes e Otimização
 **Notebook**: `03_treinamento_otimizacao.ipynb`  
-**Tempo de apresentação**: 3-4 minutos
 
 **Responsabilidades:**
 - Implementar QNode (circuito + measurement)
@@ -91,17 +86,16 @@ QML/
 - Capturar e plotar loss × epochs
 
 **Entregáveis:**
-- [ ] QNode funcionando
-- [ ] Loop de treinamento completo
-- [ ] Gráfico de loss
-- [ ] Parâmetros treinados salvos em `results/`
-- [ ] Demonstração de gradientes quânticos
+- ✅ QNode funcionando
+- ✅ Loop de treinamento completo
+- ✅ Gráfico de loss
+- ✅ Parâmetros treinados salvos em `results/`
+- ✅ Demonstração de gradientes quânticos
 
 ---
 
-### 🟨 Membro 4 — Resultados, Fronteiras de Decisão e Análise Crítica
+### [<img src="https://avatars.githubusercontent.com/u/141956872?v=4" width=35>](https://github.com/vsr87) — Resultados, Fronteiras de Decisão e Análise Crítica
 **Notebook**: `04_resultados_analise.ipynb`  
-**Tempo de apresentação**: 3-4 minutos
 
 **Responsabilidades:**
 - Calcular acurácia no conjunto de teste
@@ -114,11 +108,11 @@ QML/
   - Comparação honesta com ML clássico
 
 **Entregáveis:**
-- [ ] Acurácia e métricas calculadas
-- [ ] Fronteira de decisão visualizada
-- [ ] Matriz de confusão
-- [ ] Análise crítica completa
-- [ ] Discussão sobre vantagem quântica
+- ✅ Acurácia e métricas calculadas
+- ✅ Fronteira de decisão visualizada
+- ✅ Matriz de confusão
+- ✅ Análise crítica completa
+- ✅ Discussão sobre vantagem quântica
 
 ---
 
@@ -126,15 +120,15 @@ QML/
 
 ### 1. Clone o repositório (ou crie o ambiente)
 ```bash
-cd /home/saposopa/Saparia/QML
+cd /home/user/QML
 ```
 
 ### 2. Crie um ambiente virtual
 ```bash
-python3 -m venv venv
-source venv/bin/activate  # Linux/Mac
+python3 -m venv env
+source env/bin/activate  # Linux/Mac
 # ou
-venv\Scripts\activate     # Windows
+env\Scripts\activate     # Windows
 ```
 
 ### 3. Instale as dependências
@@ -192,10 +186,10 @@ Os notebooks devem ser executados **em ordem**:
 
 | Bloco | Tempo | Foco |
 |-------|-------|------|
-| 1 🟥  | 3 min | Motivação + Conceitos + XOR |
-| 2 🟦  | 3-4 min | Dataset + Circuito |
-| 3 🟩  | 3-4 min | Treinamento + Gradientes |
-| 4 🟨  | 3-4 min | Resultados + Crítica |
+| 1 🟥  | 5 min | Motivação + Conceitos + XOR |
+| 2 🟦  | 2 min | Dataset + Circuito |
+| 3 🟩  | 2-3 min | Treinamento + Gradientes |
+| 4 🟨  | 4-5 min | Resultados + Crítica |
 
 **Cada membro apresenta seu próprio bloco de forma independente.**
 
@@ -212,40 +206,15 @@ Os notebooks devem ser executados **em ordem**:
 
 ## ⚠️ Notas Importantes
 
-### Para os membros:
-1. **Notebooks são independentes**: cada um pode trabalhar em paralelo
-2. **Comunicação é essencial**: definir formato de dados salvos
-3. **Análise crítica honesta**: não vender hype, mostrar realidade
-4. **Código limpo**: comentar bem, usar funções reutilizáveis
-
 ### Pontos de atenção:
 - Normalização dos dados é **crítica** para convergência
 - Labels devem ser {-1, +1} (não {0, 1}) para PauliZ
 - Ansatz pequeno evita barren plateaus
-- Tempo de execução: treino pode levar 5-10 minutos
 
 ---
 
 ## 📞 Contato e Suporte
 
-Para dúvidas sobre:
-- **Bloco 1**: [Membro 1]
-- **Bloco 2**: [Membro 2]
-- **Bloco 3**: [Membro 3]
-- **Bloco 4**: [Membro 4]
-
+| [<img src="https://avatars.githubusercontent.com/u/91219977?v=4" width=115><br><sub>Gabriel Azevedo</sub>](https://github.com/gabrielbelo2007) | [<img src="https://avatars.githubusercontent.com/u/137849658?v=4" width=115><br><sub>Gabriel Marques</sub>](https://github.com/marquesgbr) | [<img src="https://avatars.githubusercontent.com/u/129231720?v=4" width=115><br><sub>Henrique César</sub>](https://github.com/SapoSopa) | [<img src="https://avatars.githubusercontent.com/u/141956872?v=4" width=115><br><sub>Vinícius de Sousa Rodrigues</sub>](https://github.com/vsr87) |
+| :---: | :---: | :---: | :---: |
 ---
-
-## 🏁 Checklist Final do Projeto
-
-- [ ] Todos os notebooks executam sem erros
-- [ ] Dados salvos em `data/`
-- [ ] Modelo treinado salvo em `results/`
-- [ ] Todas as visualizações geradas
-- [ ] Slides de apresentação preparados
-- [ ] Análise crítica completa
-- [ ] Tempo de apresentação ensaiado
-
----
-
-**Boa sorte com o projeto! 🚀🔬**
